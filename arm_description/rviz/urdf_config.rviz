@@ -69,6 +69,22 @@ Visualization Manager:
       Filter (blacklist): ""
       Filter (whitelist): ""
 
+    # 카메라 이미지 디스플레이
+    - Name: Camera Image
+      Class: rviz_default_plugins/Image
+      Enabled: true
+      Topic:
+        Value: /camera/image_raw
+        History Policy: Keep Last
+        Depth: 5
+        Reliability Policy: Reliable
+        Durability Policy: Volatile
+      Transport Hint: raw
+      Normalize Range: true
+      Min Value: 0.0
+      Max Value: 1.0
+      Median window: 5
+
 
   Tools:
     - Class: rviz_default_plugins/Interact

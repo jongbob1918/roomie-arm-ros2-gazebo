@@ -2,6 +2,14 @@
 
 A complete ROS2 package for simulating and controlling a 4DOF robot arm with ArUco marker detection capabilities.
 
+## ✨ Features
+
+- 🤖 **4DOF Robot Arm Simulation**: Complete physics simulation in Gazebo
+- 📷 **Integrated Camera**: Real-time camera feed with RViz visualization 
+- 🎯 **ArUco Marker Detection**: Built-in support for ArUco marker environments
+- 🎮 **Multiple Control Modes**: GUI sliders and programmatic control
+- 📊 **Real-time Visualization**: RViz integration with robot model and camera feed
+
 ## 🚀 Quick Start
 
 ### Prerequisites
@@ -27,20 +35,20 @@ source install/setup.bash
 
 ### Run the Simulation
 
-#### Option 1: URDF Validation Mode (Development/Debugging)
-Fast startup for URDF testing and joint validation:
-```bash
-ros2 launch arm_bringup urdf_validation.launch.py
-```
-
-#### Option 2: Simulation Control Mode (Full Physics)
-Complete simulation with physics and real robot control interface:
+Complete simulation with physics, robot control, and camera visualization:
 ```bash
 ros2 launch arm_bringup simulation_control.launch.py
 
 # Or without GUI for headless operation:
 ros2 launch arm_bringup simulation_control.launch.py gui:=false
 ```
+
+**What you'll see:**
+- 🤖 **Gazebo**: Robot arm in ArUco marker environment
+- 📊 **RViz**: Robot model, TF frames, and real-time camera feed
+- 🎮 **GUI Controller**: Slider controls for each joint
+
+The camera feed appears automatically in RViz under "Camera Image" display.
 
 ## 📦 Package Structure
 
