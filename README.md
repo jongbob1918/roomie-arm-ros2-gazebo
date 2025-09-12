@@ -15,7 +15,7 @@ A complete ROS2 package for simulating and controlling a 4DOF robot arm with ArU
 ### Prerequisites
 - ROS2 Jazzy (or compatible version)
 - Gazebo
-- Python 3.8+
+- Python 3.12
 
 ### Clone and Build
 ```bash
