@@ -1,0 +1,100 @@
+Panels:
+  - Class: rviz_common/Displays
+    Name: Displays
+    Property Tree Widget:
+      Expanded:
+        - /Global Options1
+        - /Status1
+        - /RobotModel1
+        - /TF1
+      Splitter Ratio: 0.62
+  - Class: rviz_common/Views
+    Name: Views
+    Splitter Ratio: 0.5
+
+Visualization Manager:
+  Class: ""
+  Enabled: true
+
+  Global Options:
+    Background Color: 48; 48; 48
+    Fixed Frame: base_link
+    Frame Rate: 60
+
+  Displays:
+    # 바닥 그리드
+    - Name: Grid
+      Class: rviz_default_plugins/Grid
+      Enabled: true
+      Alpha: 0.5
+      Plane: XY
+      Plane Cell Count: 10
+      Cell Size: 0.1
+      Color: 160; 160; 164
+      Reference Frame: <Fixed Frame>
+
+    # 로봇 모델 (URDF)
+    - Name: RobotModel
+      Class: rviz_default_plugins/RobotModel
+      Enabled: true
+      Visual Enabled: true
+      Collision Enabled: false
+      TF Prefix: ""
+      Update Interval: 0
+      Description Source: Topic
+      Description Topic:
+        Value: /robot_description
+        History Policy: Keep Last
+        Depth: 5
+        Reliability Policy: Reliable
+        Durability Policy: Volatile
+      Links:
+        All Links Enabled: true
+        Expand Link Details: false
+        Expand Joint Details: false
+        Expand Tree: false
+        Link Tree Style: Links in Alphabetic Order
+        # 필요하면 여기서 end_effector, camera_link 등 개별 링크만 True로 노출 설정 가능
+
+    # TF 프레임 트리
+    - Name: TF
+      Class: rviz_default_plugins/TF
+      Enabled: true
+      Show Names: true
+      Show Axes: true
+      Show Arrows: true
+      Marker Scale: 0.1
+      Frames:
+        All Enabled: true
+      Filter (blacklist): ""
+      Filter (whitelist): ""
+
+
+  Tools:
+    - Class: rviz_default_plugins/Interact
+      Hide Inactive Objects: true
+    - Class: rviz_default_plugins/MoveCamera
+    - Class: rviz_default_plugins/Select
+    - Class: rviz_default_plugins/Measure
+
+  Views:
+    Current:
+      Class: rviz_default_plugins/Orbit
+      Name: Orbit
+      # 팔을 가까이에서 보기 좋은 거리/각도
+      Distance: 0.6
+      Pitch: 0.5
+      Yaw: 0.8
+      Focal Point:
+        X: 0.0
+        Y: 0.0
+        Z: 0.1
+      Target Frame: base_link
+
+Window Geometry:
+  Width: 1600
+  Height: 900
+  X: 50
+  Y: 50
+  Hide Left Dock: false
+  Hide Right Dock: false

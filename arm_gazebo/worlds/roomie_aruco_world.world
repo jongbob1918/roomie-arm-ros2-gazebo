@@ -1,0 +1,124 @@
+<?xml version="1.0" ?>
+<sdf version="1.7">
+  <world name="roomie_aruco_world">
+    <!-- Physics settings -->
+    <physics name="1ms" type="ignored">
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1.0</real_time_factor>
+    </physics>
+
+    <!-- Plugins -->
+    <plugin
+      filename="gz-sim-physics-system"
+      name="gz::sim::systems::Physics">
+    </plugin>
+    <plugin
+      filename="gz-sim-user-commands-system"
+      name="gz::sim::systems::UserCommands">
+    </plugin>
+    <plugin
+      filename="gz-sim-scene-broadcaster-system"
+      name="gz::sim::systems::SceneBroadcaster">
+    </plugin>
+    <plugin
+      filename="gz-sim-sensors-system"
+      name="gz::sim::systems::Sensors">
+      <render_engine>ogre2</render_engine>
+    </plugin>
+    <plugin
+      filename="gz-sim-contact-system"
+      name="gz::sim::systems::Contact">
+    </plugin>
+
+    <!-- Lighting -->
+    <light type="directional" name="sun">
+      <cast_shadows>true</cast_shadows>
+      <pose>0 0 10 0 0 0</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <attenuation>
+        <range>1000</range>
+        <constant>0.9</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <direction>-0.5 0.1 -0.9</direction>
+    </light>
+
+    <!-- Ground plane -->
+    <model name="ground_plane">
+      <static>true</static>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <material>
+            <ambient>0.8 0.8 0.8 1</ambient>
+            <diffuse>0.8 0.8 0.8 1</diffuse>
+            <specular>0.8 0.8 0.8 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- ArUco Marker Panel 1 (ID: 101) - 카메라가 볼 수 있도록 세워서 배치 -->
+    <include>
+      <uri>model://aruco_marker_101</uri>
+      <pose>0.23 0 0.30 0 -1.5708 0</pose>  <!-- 90도 회전(pitch)으로 세워서 배치 -->
+      <name>aruco_panel_101</name>
+    </include>
+
+    <!-- ArUco Marker Panel 2 (ID: 102) -->
+    <include>
+      <uri>model://aruco_marker_102</uri>
+      <pose>0.23 0.0 0.25 0 -1.5708 0</pose>  <!-- 90도 회전으로 세워서 배치 -->
+      <name>aruco_panel_102</name>
+    </include>
+
+    <!-- ArUco Marker Panel 3 (ID: 103) -->
+    <include>
+      <uri>model://aruco_marker_103</uri>
+      <pose>0.23 0.0 0.20 0 -1.5708 0</pose>  <!-- 90도 회전으로 세워서 배치 -->
+      <name>aruco_panel_103</name>
+    </include>
+
+    <!-- Control Panel Base -->
+    <model name="control_panel">
+      <static>true</static>
+      <pose>0.3061 0 0.02 0 0 0</pose>
+      <link name="panel_base">
+        <collision name="collision">
+          <geometry>
+            <box>
+              <size>0.15 0.25 0.86</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box>
+              <size>0.15 0.25 0.86</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.2 0.2 0.2 1</ambient>
+            <diffuse>0.3 0.3 0.3 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+  </world>
+</sdf>

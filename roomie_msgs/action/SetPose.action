@@ -1,0 +1,19 @@
+# Goal: 포즈 설정 요청
+int32 pose_id             # 사전 정의된 포즈 ID
+geometry_msgs/Pose target_pose  # 목표 포즈 (직접 지정 시)
+string move_type          # 이동 타입 ("joint", "cartesian", "ik")
+float64 speed_scale       # 속도 스케일 (0.1 ~ 1.0)
+float64 planning_time     # 계획 시간 (초)
+---
+# Result: 포즈 설정 결과
+int32 robot_id            # 로봇 ID
+bool success              # 성공 여부
+string message            # 결과 메시지
+float64 execution_time    # 실행 시간 (초)
+geometry_msgs/Pose achieved_pose  # 실제 달성한 포즈
+---
+# Feedback: 진행 상황 피드백
+string current_step       # 현재 단계 ("planning", "moving", "completed")
+float64 progress_percent  # 진행률 (0.0 ~ 100.0)
+geometry_msgs/Pose current_pose  # 현재 엔드이펙터 위치
+float64[] current_joints  # 현재 관절 각도 (라디안)
