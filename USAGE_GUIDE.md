@@ -6,8 +6,8 @@
 URDF 파일 구조 검증 및 빠른 조인트 테스트용
 
 ```bash
-# 환경 설정
-cd /home/mac/dev_ws/roomie-arm-ros2-gazebo
+# 환경 설정 (프로젝트 루트 디렉토리로 이동)
+cd <your_workspace_path>/roomie-arm-ros2-gazebo
 source install/setup.bash
 
 # URDF 검증 모드 실행
@@ -27,8 +27,8 @@ rviz2 -d $(ros2 pkg prefix arm_description)/share/arm_description/rviz/urdf_conf
 실제 로봇과 동일한 환경에서 물리 시뮬레이션
 
 ```bash
-# 환경 설정
-cd /home/mac/dev_ws/roomie-arm-ros2-gazebo
+# 환경 설정 (프로젝트 루트 디렉토리로 이동)
+cd <your_workspace_path>/roomie-arm-ros2-gazebo
 source install/setup.bash
 
 # 시뮬레이션 제어 모드 실행

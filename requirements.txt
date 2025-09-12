@@ -1,0 +1,41 @@
+# roomie_ac 패키지 Python 의존성
+# ROS2 통합 로봇 제어 시스템
+
+# 설치 방법:
+# pip install -r requirements.txt
+
+# 시리얼 통신 (ESP32)
+pyserial>=3.5
+
+# 수치 계산
+numpy>=1.21.0
+
+# 역기구학 계산
+ikpy>=3.3.0
+
+# 과학 계산 (ikpy 의존성)
+scipy>=1.7.0
+
+# 컴퓨터 비전 (ArUco 마커 감지)
+opencv-python>=4.5.0
+
+# 이미지 처리
+Pillow>=8.0.0
+
+# 비동기 처리
+asyncio-mqtt>=0.11.0
+
+# 개발/디버깅 도구
+pytest>=6.0.0
+pytest-asyncio>=0.18.0
+
+# 추가 컴퓨터 비전 라이브러리 (선택사항)
+# ultralytics  # YOLO v8 (GPU 가속 필요시)
+# easyocr      # OCR 기능 (GPU 가속 필요시)
+
+# ROS2 관련 패키지는 시스템 패키지로 설치됨:
+# - rclpy (ROS2 Python 클라이언트)
+# - sensor_msgs (ROS2 센서 메시지)
+# - std_msgs (ROS2 표준 메시지)
+# - geometry_msgs (ROS2 지오메트리 메시지)
+# - trajectory_msgs (ROS2 궤적 메시지)

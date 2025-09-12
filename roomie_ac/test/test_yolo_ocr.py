@@ -1,10 +1,13 @@
 import cv2
 from ultralytics import YOLO
 import easyocr
+import os
 
 # --- 설정 ---
 # 사용자의 환경에 맞게 이 부분의 값을 수정하세요.
-MODEL_PATH = '/home/mac/dev_ws/addinedu/project/ros-repo-2/ros2_ws/src/roomie_ac/roomie_ac/best.pt'
+# 패키지 내 상대 경로로 모델 경로 설정
+current_dir = os.path.dirname(__file__)
+MODEL_PATH = os.path.join(current_dir, '..', 'roomie_ac', 'data', 'best.pt')
 CAMERA_INDEX = 4
 CONFIDENCE_THRESHOLD = 0.25 # 테스트를 위해 신뢰도 기준을 조금 낮게 설정
 

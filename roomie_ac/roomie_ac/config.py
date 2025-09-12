@@ -72,7 +72,18 @@ SERIAL_TIMEOUT = 10.0 # 시리얼 연결 및 응답 대기 타임아웃
 
 # --- 카메라 및 인식 설정 ---
 CAMERA_DEVICE_ID = 8  # 사용자의 카메라 장치 번호
-YOLO_MODEL_PATH = '/home/mac/dev_ws/addinedu/project/ros-repo-2/ros2_ws/src/roomie_ac/roomie_ac/data/best.pt'
+
+# YOLO 모델 경로 (패키지 내 상대 경로)
+import os
+from ament_index_python.packages import get_package_share_directory
+
+try:
+    package_share_directory = get_package_share_directory('roomie_ac')
+    YOLO_MODEL_PATH = os.path.join(package_share_directory, 'data', 'best.pt')
+except Exception:
+    # 개발 환경에서는 상대 경로 사용
+    current_dir = os.path.dirname(__file__)
+    YOLO_MODEL_PATH = os.path.join(current_dir, 'data', 'best.pt')
 
 
 

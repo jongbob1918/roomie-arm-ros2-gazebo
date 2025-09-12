@@ -1,8 +1,12 @@
 import numpy as np
+import os
 
 # 'camera_params.npz' 파일이 같은 폴더에 있다고 가정합니다.
+current_dir = os.path.dirname(__file__)
+npz_file_path = os.path.join(current_dir, 'camera_params.npz')
+
 try:
-    with np.load('/home/mac/dev_ws/addinedu/project/ros-repo-2/ros2_ws/src/roomie_ac/roomie_ac/data/camera_params.npz') as data:
+    with np.load(npz_file_path) as data:
         mtx = data['mtx']
         dist = data['dist']
         
