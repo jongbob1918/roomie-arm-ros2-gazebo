@@ -4,7 +4,7 @@ install/
 log/
 
 # Python
-__pycache__/
+__pycache*/
 *.py[cod]
 *$py.class
 *.so

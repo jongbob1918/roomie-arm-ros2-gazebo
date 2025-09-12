@@ -1,26 +1,32 @@
 # Roomie 4DOF Robot Arm - ROS2 Gazebo Simulation
 
-A complete ROS2 package for simulating and controlling a 4DOF robot arm with ArUco marker detection capabilities.
+<div align="center">
+    <img src="asset/images/gazebo_video.gif" width="600" height="300"/>
+</div>
 
-## ✨ Features
 
-- 🤖 **4DOF Robot Arm Simulation**: Complete physics simulation in Gazebo
-- 📷 **Integrated Camera**: Real-time camera feed with RViz visualization 
-- 🎯 **ArUco Marker Detection**: Built-in support for ArUco marker environments
-- 🎮 **Multiple Control Modes**: GUI sliders and programmatic control
-- 📊 **Real-time Visualization**: RViz integration with robot model and camera feed
+## Features
 
-## 🚀 Quick Start
+-  **4DOF Robot Arm Simulation**: Complete physics simulation in Gazebo
+-  **Integrated Camera**: Real-time camera feed with RViz visualization 
+-  **ArUco Marker Detection**: Built-in support for ArUco marker environments
+-  **Multiple Control Modes**: GUI sliders and programmatic control
+-  **Real-time Visualization**: RViz integration with robot model and camera feed
+
 
 ### Prerequisites
-- ROS2 Jazzy (or compatible version)
-- Gazebo
 - Python 3.12
+- ubuntu 24.04
+- [ROS2 Jazzy 설치](https://docs.ros.org/en/jazzy/Installation/Ubuntu-Install-Debs.html)
+- [Gazebo Harmonic 설치](https://gazebosim.org/docs/harmonic/install_ubuntu/)
+
+
+
 
 ### Clone and Build
 ```bash
 # Clone the repository
-git clone <repository-url>
+git clone git@github.com:jongbob1918/roomie-arm-ros2-gazebo.git
 cd roomie-arm-ros2-gazebo
 
 # Install Python dependencies
@@ -44,13 +50,35 @@ ros2 launch arm_bringup simulation_control.launch.py gui:=false
 ```
 
 **What you'll see:**
-- 🤖 **Gazebo**: Robot arm in ArUco marker environment
-- 📊 **RViz**: Robot model, TF frames, and real-time camera feed
-- 🎮 **GUI Controller**: Slider controls for each joint
+- **Gazebo**: Robot arm in ArUco marker environment
+
+<div align="center">
+    <img src="asset/images/gazebo_simulation.png" width="600" height="300"/>
+</div>
+
+- **RViz**: Robot model, TF frames, and real-time camera feed
+
+<div align="center">
+    <img src="asset/images/rviz2.png" width="600" height="300"/>
+</div>
+
+- **GUI Controller**: Slider controls for each joint
+
+<div align="center">
+    <img src="asset/images/robot_controller.png" width="600" height="300"/>
+</div>
 
 The camera feed appears automatically in RViz under "Camera Image" display.
 
-## 📦 Package Structure
+
+
+
+
+
+
+
+
+##  Package Structure
 
 - **arm_description**: Robot URDF, meshes, and visual configurations
 - **arm_bringup**: Launch files and integration scripts
@@ -58,8 +86,8 @@ The camera feed appears automatically in RViz under "Camera Image" display.
 - **roomie_ac**: Robot control and ArUco detection package
 - **roomie_msgs**: Custom ROS2 messages
 
-## 🎮 Manual Control
 
+##  Manual Control
 Send joint commands directly:
 ```bash
 # Move to specific joint positions [joint1, joint2, joint3, joint4]
@@ -72,63 +100,3 @@ ros2 topic pub /forward_position_controller/commands std_msgs/msg/Float64MultiAr
 ros2 topic echo /joint_states
 ```
 
-## 🔧 Development
-
-### Python Dependencies
-All Python dependencies are automatically installed during `colcon build` via the `setup.py` files. No separate `pip install` required.
-
-### Key Dependencies
-- **pyserial**: ESP32 communication
-- **numpy**: Numerical computations
-- **ikpy**: Inverse kinematics
-- **opencv-python**: Computer vision and ArUco detection
-- **scipy**: Scientific computing
-
-### Testing
-```bash
-# Run tests
-colcon test
-
-# Build specific package
-colcon build --packages-select <package_name>
-```
-
-## 📚 Documentation
-
-- [Usage Guide](USAGE_GUIDE.md) - Detailed usage instructions
-- [Gazebo Configuration](GAZEBO_CONFIGURATION_GUIDE.md) - Gazebo setup and ArUco worlds
-- [Development Roadmap](DEVELOPMENT_ROADMAP.md) - Future development plans
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test thoroughly
-5. Submit a pull request
-
-## 📄 License
-
-[Add your license information here]
-
-## 🐛 Troubleshooting
-
-### Common Issues
-
-**CMake Cache Issues**: If you encounter CMake cache errors, clean and rebuild:
-```bash
-rm -rf build/ install/ log/
-colcon build
-```
-
-**Missing Dependencies**: Dependencies should install automatically. If issues persist:
-```bash
-# Check Python environment
-python3 -c "import numpy, cv2, ikpy"
-```
-
-**Gazebo Clock Warnings**: These are normal and can be ignored. Use `gui:=false` for headless operation.
-
----
-
-For more detailed information, see the individual documentation files in this repository.
