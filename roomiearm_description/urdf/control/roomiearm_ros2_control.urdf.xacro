@@ -12,8 +12,8 @@
       <!-- Joint 1 -->
       <joint name="joint_1">
         <command_interface name="position">
-          <param name="min">-pi/2</param>
-          <param name="max">pi/2</param>
+          <param name="min">-1.5708</param>
+          <param name="max">1.5708</param>
         </command_interface>
         <state_interface name="position"/>
    
@@ -22,8 +22,8 @@
       <!-- Joint 2 -->
       <joint name="joint_2">
         <command_interface name="position">
-          <param name="min">-pi/2</param>
-          <param name="max">pi/2</param>
+          <param name="min">-1.5708</param>
+          <param name="max">1.5708</param>
         </command_interface>
         <state_interface name="position"/>
       
@@ -32,8 +32,8 @@
       <!-- Joint 3 -->
       <joint name="joint_3">
         <command_interface name="position">
-          <param name="min">-pi/2</param>
-          <param name="max">pi/2</param>
+          <param name="min">-1.5708</param>
+          <param name="max">1.5708</param>
         </command_interface>
         <state_interface name="position"/>
       </joint>
@@ -41,8 +41,8 @@
       <!-- Joint 4 -->
       <joint name="joint_4">
         <command_interface name="position">
-          <param name="min">-pi/2</param>
-          <param name="max">pi/2</param>
+          <param name="min">-1.5708</param>
+          <param name="max">1.5708</param>
         </command_interface>
         <state_interface name="position"/>
       </joint>
