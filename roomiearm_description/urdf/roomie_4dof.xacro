@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
-<robot name="roomie_4dof" xmlns:xacro="http://www.ros.org/wiki/xacro">
+<robot name="roomiearm_4dof" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
   <!-- Arguments -->
   <xacro:arg name="use_gazebo" default="false"/>
 
   <!-- Properties -->
-  <xacro:property name="mesh_prefix" value="package://arm_description/meshes"/>
+  <xacro:property name="mesh_prefix" value="package://roomiearm_description/meshes"/>
   <xacro:property name="limit_lower" value="-1.54"/>
   <xacro:property name="limit_upper" value="1.54"/>
   <xacro:property name="limit_effort" value="100"/>
@@ -218,15 +218,15 @@
   <!-- ===================================================== -->
   
   <!-- ros2_control 매크로 include -->
-  <xacro:include filename="$(find arm_description)/ros2_control/roomie_4dof.ros2_control.xacro"/>
-  <xacro:include filename="$(find arm_description)/gazebo/roomie_4dof.gazebo.xacro"/>
-  
+  <xacro:include filename="$(find roomiearm_description)/ros2_control/roomie_4dof.ros2_control.xacro"/>
+  <xacro:include filename="$(find roomiearm_description)/gazebo/roomie_4dof.gazebo.xacro"/>
+
   <!-- ros2_control 매크로 호출 -->
-  <xacro:roomie_4dof_ros2_control name="RoomieSystem" prefix="" use_gazebo="$(arg use_gazebo)"/>
-  
+  <xacro:roomiearm_4dof_ros2_control name="RoomieSystem" prefix="" use_gazebo="$(arg use_gazebo)"/>
+
   <xacro:if value="$(arg use_gazebo)">
     <!-- Gazebo 사용시만 포함 -->
-    <xacro:roomie_4dof_gazebo prefix=""/>
+    <xacro:roomiearm_4dof_gazebo prefix=""/>
   </xacro:if>
 
 </robot>

@@ -2,7 +2,7 @@
 
 """
 Roomie 4DOF 로봇 통합 런치 파일
-arm_description + roomie_ac 통합 실행
+roomiearm_description + roomiearm_ac 통합 실행
 """
 
 import os
@@ -20,8 +20,8 @@ def generate_launch_description():
     """Launch description 생성"""
     
     # 패키지 경로
-    pkg_arm_description = FindPackageShare('arm_description')
-    pkg_roomie_ac = FindPackageShare('roomie_ac')
+    pkg_roomiearm_description = FindPackageShare('roomiearm_description')
+    pkg_roomiearm_ac = FindPackageShare('roomiearm_ac')
     
     # Launch arguments
     simulation_mode = LaunchConfiguration('simulation_mode')
@@ -49,7 +49,7 @@ def generate_launch_description():
     # Robot State Publisher 런치 (arm_description에서)
     robot_state_publisher_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([
-            pkg_arm_description,
+            pkg_roomiearm_description,
             '/launch/robot_state_publisher.launch.py'
         ]),
         launch_arguments={
@@ -59,7 +59,7 @@ def generate_launch_description():
     
     # Roomie AC Node (roomie_ac 패키지의 메인 제어 노드)
     roomie_ac_node = Node(
-        package='roomie_ac',
+        package='roomiearm_ac',
         executable='ac_node',
         name='arm_control_node',
         output='screen',
@@ -78,7 +78,7 @@ def generate_launch_description():
     
     # RViz2 (시각화용 - 옵션)
     rviz_config_file = os.path.join(
-        get_package_share_directory('arm_description'),
+        get_package_share_directory('roomiearm_description'),
         'rviz',
         'urdf_config.rviz'
     )

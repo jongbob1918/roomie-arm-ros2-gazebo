@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
 
-  <xacro:macro name="roomie_4dof_gazebo" params="prefix">
+  <xacro:macro name="roomiearm_4dof_gazebo" params="prefix">
 
     <!-- ros2_control Gazebo 플러그인 -->
     <gazebo>
       <plugin filename="libgz_ros2_control-system.so" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
-        <parameters>$(find arm_gazebo)/config/roomie_controllers.yaml</parameters>
+        <parameters>$(find roomiearm_gazebo)/config/roomie_controllers.yaml</parameters>
         <robot_param>robot_description</robot_param>
         <robot_param_node>robot_state_publisher</robot_param_node>
       </plugin>
@@ -19,7 +19,7 @@
         <visualize>true</visualize>
         <update_rate>30.0</update_rate>
         <topic>camera/image_raw</topic>
-        <camera name="arm_camera">
+        <camera name="roomiearm_camera">
           <camera_info_topic>camera/camera_info</camera_info_topic>
           <horizontal_fov>1.0466</horizontal_fov>
           <image>

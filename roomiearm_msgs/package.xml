@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>roomie_msgs</name>
+  <name>roomiearm_msgs</name>
   <version>0.0.0</version>
   <description>Custom messages and actions for Roomie 4DOF robot control system</description>
   <maintainer email="mac@todo.todo">mac</maintainer>

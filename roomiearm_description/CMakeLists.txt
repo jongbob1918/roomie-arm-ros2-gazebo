@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.8)
-project(arm_description)
+project(roomiearm_description)
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
@@ -15,6 +15,7 @@ install(DIRECTORY meshes/ DESTINATION share/${PROJECT_NAME}/meshes/)
 install(DIRECTORY rviz/ DESTINATION share/${PROJECT_NAME}/rviz/)
 install(DIRECTORY ros2_control/ DESTINATION share/${PROJECT_NAME}/ros2_control/)
 install(DIRECTORY gazebo/ DESTINATION share/${PROJECT_NAME}/gazebo/)
+
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)

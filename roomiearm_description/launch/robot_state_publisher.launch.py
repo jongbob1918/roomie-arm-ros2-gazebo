@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 
 """
-roomie_4dof 로봇 state publisher 런치 파일
-arm_description의 URDF/xacro를 사용한 로봇 상태 퍼블리싱
+roomiearm_4dof 로봇 state publisher 런치 파일
+roomiearm_description의 URDF/xacro를 사용한 로봇 상태 퍼블리싱
 """
 
 import os
@@ -18,7 +18,7 @@ def generate_launch_description():
     """Launch description 생성"""
     
     # 패키지 경로
-    pkg_arm_description = FindPackageShare('arm_description')
+    pkg_roomiearm_description = FindPackageShare('roomiearm_description')
     
     # Launch arguments
     use_sim_time = LaunchConfiguration('use_sim_time')
@@ -31,9 +31,9 @@ def generate_launch_description():
     
     # URDF 파일 경로
     urdf_file = os.path.join(
-        get_package_share_directory('arm_description'),
+        get_package_share_directory('roomiearm_description'),
         'urdf',
-        'roomie_4dof.xacro'
+        'roomiearm_4dof.xacro'
     )
     
     # robot_description 파라미터 생성
