@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" >
+
+  <xacro:arg name="use_gazebo" default="true"/>
+  
+  <xacro:if value="$(arg use_gazebo)">  
+    <gazebo reference="camera_link">
+        <sensor name="camera" type="camera">
+          <pose>0 0 0 0 -1.5708 1.5708</pose>
+          <visualize>true</visualize>
+          <update_rate>30.0</update_rate>
+          <topic>camera/image_raw</topic>
+          <camera name="roomiearm_camera">
+            <camera_info_topic>camera/camera_info</camera_info_topic>
+            <horizontal_fov>1.0466</horizontal_fov>
+            <image>
+              <width>800</width>
+              <height>600</height>
+              <format>R8G8B8</format>
+            </image>
+            <clip>
+              <near>0.02</near>
+              <far>300</far>
+            </clip>
+            <distortion>
+              <k1>-0.414921465</k1>
+              <k2>0.277976117</k2>
+              <p1>0.000362302582</p1>
+              <p2>-0.000173492775</p2>
+              <k3>-0.194112104</k3>
+              <center>0.5 0.5</center>
+            </distortion>
+            <noise>
+            <type>gaussian</type>
+                <mean>0.0</mean>
+                <stddev>0.01</stddev>
+            </noise>
+          </camera>
+        </sensor>
+    </gazebo>
+  </xacro:if>
+
+</robot>

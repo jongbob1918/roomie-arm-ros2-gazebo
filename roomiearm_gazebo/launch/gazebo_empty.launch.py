@@ -69,7 +69,7 @@ def generate_launch_description():
             PathJoinSubstitution([FindExecutable(name="xacro")]),
             " ",
             PathJoinSubstitution(
-                [FindPackageShare("arm_description"), "urdf", "roomie_4dof.xacro"]
+                [FindPackageShare("roomiearm_description"), "urdf/robots", "roomiearm.urdf.xacro"]
             ),
             " ",
             "use_gazebo:=true",
@@ -79,9 +79,9 @@ def generate_launch_description():
 
     robot_controllers = PathJoinSubstitution(
         [
-            FindPackageShare("arm_gazebo"),
+            FindPackageShare("roomiearm_gazebo"),
             "config",
-            "roomie_controllers.yaml",
+            "ros2_controllers.yaml",
         ]
     )
 
@@ -103,7 +103,7 @@ def generate_launch_description():
         output="screen",
         arguments=[
             "-topic", "/robot_description",
-            "-name", "roomie_4dof",
+            "-name", "roomiearm",
             "-allow_renaming", "true",
             "-x", spawn_x,
             "-y", spawn_y,

@@ -19,8 +19,8 @@ def generate_launch_description():
     """Launch description 생성"""
     
     # 패키지 경로
-    pkg_arm_gazebo = FindPackageShare('arm_gazebo')
-    pkg_arm_description = FindPackageShare('arm_description')
+    pkg_arm_gazebo = FindPackageShare('roomiearm_gazebo')
+    pkg_arm_description = FindPackageShare('roomiearm_description')
     
     # Gazebo 모델 경로 설정 (ArUco 마커 모델 포함)
     models_path = PathJoinSubstitution([pkg_arm_gazebo, 'models'])
@@ -97,7 +97,7 @@ def generate_launch_description():
     robot_description_content = Command([
         PathJoinSubstitution([FindExecutable(name="xacro")]),
         " ",
-        PathJoinSubstitution([pkg_arm_description, "urdf", "roomie_4dof.xacro"]),
+        PathJoinSubstitution([pkg_arm_description, "urdf/robots", "roomiearm.urdf.xacro"]),
         " ",
         "use_gazebo:=true"
     ])
@@ -105,7 +105,7 @@ def generate_launch_description():
     
     # 컨트롤러 설정 파일
     robot_controllers = PathJoinSubstitution([
-        pkg_arm_gazebo, "config", "roomie_controllers.yaml"
+        pkg_arm_gazebo, "config", "ros2_controllers.yaml"
     ])
     
     # Robot State Publisher
@@ -126,7 +126,7 @@ def generate_launch_description():
         output="screen",
         arguments=[
             "-topic", "/robot_description",
-            "-name", "roomie_4dof",
+            "-name", "roomiearm",
             "-allow_renaming", "true",
             "-x", spawn_x,
             "-y", spawn_y,

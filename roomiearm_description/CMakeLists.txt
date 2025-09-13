@@ -9,13 +9,13 @@ endif()
 find_package(ament_cmake REQUIRED)
 
 # Install URDF and launch files
-install(DIRECTORY urdf/ DESTINATION share/${PROJECT_NAME}/urdf/)
-install(DIRECTORY launch/ DESTINATION share/${PROJECT_NAME}/launch/)
-install(DIRECTORY meshes/ DESTINATION share/${PROJECT_NAME}/meshes/)
-install(DIRECTORY rviz/ DESTINATION share/${PROJECT_NAME}/rviz/)
-install(DIRECTORY ros2_control/ DESTINATION share/${PROJECT_NAME}/ros2_control/)
-install(DIRECTORY gazebo/ DESTINATION share/${PROJECT_NAME}/gazebo/)
-
+install(DIRECTORY
+  launch
+  urdf
+  meshes
+  rviz
+  DESTINATION share/${PROJECT_NAME}
+)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)

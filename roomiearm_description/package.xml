@@ -3,15 +3,17 @@
 <package format="3">
   <name>roomiearm_description</name>
   <version>0.0.0</version>
-  <description>TODO: Package description</description>
+  <description>RoomieArm 4DOF 로봇팔의 URDF, xacro, meshes, launch, rviz 설정 패키지</description>
   <maintainer email="jongbob1918@gmail.com">mac</maintainer>
-  <license>TODO: License declaration</license>
+  <license>Apache-2.0</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
   <depend>urdf</depend>
   <depend>xacro</depend>
   <depend>robot_state_publisher</depend>
+  <exec_depend>rviz2</exec_depend>
+  <exec_depend>gazebo_ros</exec_depend>
 
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>

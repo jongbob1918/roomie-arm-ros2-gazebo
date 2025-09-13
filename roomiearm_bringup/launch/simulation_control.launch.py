@@ -33,7 +33,7 @@ def generate_launch_description():
     # Gazebo 시뮬레이션 실행
     gazebo_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([
-            FindPackageShare("arm_gazebo"), "/launch/gazebo.launch.py"
+            FindPackageShare("roomiearm_gazebo"), "/launch/gazebo.launch.py"
         ]),
         launch_arguments=[
             ("gui", gui),
@@ -43,7 +43,7 @@ def generate_launch_description():
     
     # Robot GUI Controller (슬라이더 제어)
     robot_gui_controller = Node(
-        package="arm_bringup",
+        package="roomiearm_bringup",
         executable="robot_gui_controller.py",
         output="screen",
         parameters=[{"use_sim_time": use_sim_time}],
@@ -51,7 +51,7 @@ def generate_launch_description():
     
     # RViz2 (로봇 시각화)
     rviz_config_file = PathJoinSubstitution([
-        FindPackageShare("arm_description"), 
+        FindPackageShare("roomiearm_description"), 
         "rviz", 
         "urdf_config.rviz"
     ])

@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <robot xmlns:xacro="http://wiki.ros.org/xacro">
-    <xacro:macro name="base" params="base_link prefix">
+    <xacro:macro name="base" params="base_link">
         <link name="base_link">
             <inertial>
                 <origin xyz="0 0 0.04" rpy="0 0 0"/>
@@ -11,7 +11,9 @@
                     izz="0.000833"/>
             </inertial>
             <visual>
-                <geometry><mesh filename="${mesh_prefix}/base_link.stl"/></geometry>
+                <geometry>
+                    <mesh filename="file://$(find roomiearm_description)/meshes/base_link.stl"/>
+                </geometry>
                 <material name="grey"/>
             </visual>
             <collision>
@@ -22,7 +24,7 @@
             </collision>
         </link>
 
-        <gazebo reference="${prefix}${base_link}">
+        <gazebo reference="${base_link}">
             <visual>
                 <material>
                     <ambient>0.5 0.5 0.5 1</ambient>

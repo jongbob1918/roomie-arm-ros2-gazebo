@@ -16,13 +16,13 @@ def generate_launch_description():
     """URDF 검증 모드 런치 생성"""
     
     # 패키지 경로
-    pkg_arm_description = FindPackageShare('arm_description')
+    pkg_arm_description = FindPackageShare('roomiearm_description')
     
     # URDF 생성 (Gazebo 사용 안함)
     robot_description_content = Command([
         PathJoinSubstitution([FindExecutable(name="xacro")]),
         " ",
-        PathJoinSubstitution([pkg_arm_description, "urdf", "roomie_4dof.xacro"]),
+        PathJoinSubstitution([pkg_arm_description, "urdf", "roomiearm.urdf.xacro"]),
         " ",
         "use_gazebo:=false"  # Gazebo 플러그인 비활성화
     ])

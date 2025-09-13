@@ -46,7 +46,6 @@
 
     <!-- ==================== LINKS ======================= -->
 
-
     <!-- Link 1 -->
     <link name="link_1">
       <xacro:link_inertial mass="${link_1_mass}" origin_xyz="0 0 0.05" ixx="0.000187" iyy="0.000187" izz="0.00004"/>
@@ -110,6 +109,7 @@
       <visual>
         <geometry><mesh filename="${mesh_prefix}/camera.stl"/></geometry>
         <material name="black"/>
+        <origin xyz="0 0 0" rpy="0 ${pi/2} 0"/>
       </visual>
       <collision>
         <geometry><box size="0.02 0.04 0.03"/></geometry>
@@ -174,14 +174,14 @@
   <joint name='camera_joint' type='fixed'>
     <parent link='link_4'/>
     <child link='camera_mount'/>
-    <origin xyz="-0.0035 0 0.054" rpy="0 0 0"/>
+    <origin xyz="-0.0035 0 0.054" rpy="0 -${pi/2} 0"/>
   </joint>
 
   <!-- Camera Optical Joint -->
   <joint name="camera_optical_joint" type="fixed">
-    <parent link="camera_link_mount"/>
+    <parent link="camera_mount"/>
     <child link="camera_link"/>
-    <origin xyz="0 0 0.01" rpy="0 0 ${-pi/2}"/>
+    <origin xyz="0.01 0 0" rpy="-${pi/2} 0 -${pi/2}"/>
   </joint>
 
 </robot>
