@@ -26,8 +26,8 @@
 ### Clone and Build
 ```bash
 # Clone the repository
-git clone git@github.com:jongbob1918/roomie-arm-ros2-gazebo.git
-cd roomie-arm-ros2-gazebo
+git clone git@github.com:jongbob1918/roomiearm-ros2-gazebo.git
+cd roomiearm-ros2-gazebo
 
 # Install Python dependencies
 pip install -r requirements.txt
@@ -43,10 +43,10 @@ source install/setup.bash
 
 Complete simulation with physics, robot control, and camera visualization:
 ```bash
-ros2 launch arm_bringup simulation_control.launch.py
+ros2 launch roomiearm_bringup simulation_control.launch.py
 
 # Or without GUI for headless operation:
-ros2 launch arm_bringup simulation_control.launch.py gui:=false
+ros2 launch roomiearm_bringup simulation_control.launch.py gui:=false
 ```
 
 **What you'll see:**

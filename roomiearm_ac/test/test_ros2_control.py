@@ -8,9 +8,9 @@ from rclpy.node import Node
 import numpy as np
 
 # roomie_ac 모듈들 import
-from roomie_ac.robot_controller import RobotController
-from roomie_ac.vision_controller import VisionController
-from roomie_ac import config
+from roomiearm_ac.robot_controller import RobotController
+from roomiearm_ac.vision_controller import VisionController
+from roomiearm_ac import config
 
 
 class RoomieROS2ControlTest(Node):

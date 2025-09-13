@@ -4,7 +4,7 @@ from setuptools import find_packages, setup
 import os
 from glob import glob
 
-package_name = 'roomie_ac'
+package_name = 'roomiearm_ac'
 
 setup(
     name=package_name,
@@ -27,7 +27,7 @@ setup(
     license='TODO: License declaration',
     entry_points={
         'console_scripts': [
-            'ac_node = roomie_ac.ac_node:main',
+            'ac_node = roomiearm_ac.ac_node:main',
         ],
     },
 )

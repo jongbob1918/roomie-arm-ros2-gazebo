@@ -7,7 +7,7 @@ def generate_launch_description():
     
     # URDF 파일 경로 및 내용 로드
     urdf_file_path = os.path.join(
-        get_package_share_directory('roomie_ac'), 'urdf', 'roomie2.urdf')
+        get_package_share_directory('roomiearm_ac'), 'urdf', 'roomie2.urdf')
     with open(urdf_file_path, 'r') as f:
         robot_description_content = f.read()
 
@@ -22,7 +22,7 @@ def generate_launch_description():
 
     # 2. ac_node (메인 제어 노드)
     ac_node = Node(
-        package='roomie_ac',
+        package='roomiearm_ac',
         executable='ac_node',
         name='ac_node',
         output='screen'

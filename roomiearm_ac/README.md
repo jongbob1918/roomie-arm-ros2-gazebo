@@ -3,7 +3,7 @@
 ## 📁 **폴더 구조**
 
 ```
-roomie_ac/
+roomiearm_ac/
 ├── package.xml                 # ROS2 패키지 메타데이터
 ├── setup.py                   # Python 패키지 설정
 ├── setup.cfg                  # Python 설정 파일
