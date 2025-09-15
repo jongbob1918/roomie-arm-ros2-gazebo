@@ -80,11 +80,11 @@ The camera feed appears automatically in RViz under "Camera Image" display.
 
 ##  Package Structure
 
-- **arm_description**: Robot URDF, meshes, and visual configurations
-- **arm_bringup**: Launch files and integration scripts
-- **arm_gazebo**: Gazebo-specific configurations and worlds
-- **roomie_ac**: Robot control and ArUco detection package
-- **roomie_msgs**: Custom ROS2 messages
+- **roomiearm_description**: Robot URDF, meshes, and visual configurations
+- **roomiearm_bringup**: Launch files and integration scripts
+- **roomiearm_gazebo**: Gazebo-specific configurations and worlds
+- **roomiearm_core**: Robot control and ArUco detection package
+- **roomiearm_msgs**: Custom ROS2 messages
 
 
 ##  Manual Control

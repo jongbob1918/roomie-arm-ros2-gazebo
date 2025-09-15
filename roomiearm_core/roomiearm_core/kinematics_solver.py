@@ -140,15 +140,15 @@ class DirectTransformIK:
 
         return T[:3, 3], T[:3, :3]
 
-    def inverse_kinematics(self, target_position, current_joints):
+    def inverse_kinematics(self, target_position, current_joints, approach_direction=None):
         """IK İ (0XY + Xt 1)"""
         try:
-            return self.geometric_ik(target_position, current_joints)
+            return self.geometric_ik(target_position, current_joints, approach_direction)
         except Exception as e:
             print(f"Geometric IK failed: {e}, trying numerical")
-            return self.numerical_ik(target_position, current_joints)
+            return self.numerical_ik(target_position, current_joints, approach_direction)
 
-    def geometric_ik(self, target_position, current_joints):
+    def geometric_ik(self, target_position, current_joints, approach_direction=None):
         """Geometric IK"""
         x, y, z = target_position
 
@@ -183,7 +183,21 @@ class DirectTransformIK:
         beta = math.acos((L2**2 + target_dist**2 - (L3 + L4)**2) / (2 * L2 * target_dist))
 
         theta2 = alpha - beta
-        theta4 = -(theta2 + theta3)  # End effector rotation
+
+        # theta4 계산: 접근 방향에 따라 결정
+        if approach_direction is not None:
+            # 접근 방향을 고려한 theta4 계산
+            approach_x, approach_y, approach_z = approach_direction
+
+            # 접근 방향이 수평에 가까우면 end effector를 수평으로 향하게 함
+            approach_angle_from_vertical = math.atan2(math.sqrt(approach_x**2 + approach_y**2), -approach_z)
+
+            # End effector가 접근 방향을 향하도록 theta4 조정
+            # 기본 수직 자세에서 접근 각도만큼 조정
+            theta4 = -(theta2 + theta3) + approach_angle_from_vertical
+        else:
+            # 기존 방식: 수직 아래향
+            theta4 = -(theta2 + theta3)  # End effector rotation
 
         result = [theta1, theta2, theta3, theta4]
 
@@ -194,7 +208,7 @@ class DirectTransformIK:
 
         return result
 
-    def numerical_ik(self, target_position, current_joints):
+    def numerical_ik(self, target_position, current_joints, approach_direction=None):
         """Numerical IK"""
         def objective(joint_angles):
             pos, _ = self.forward_kinematics(joint_angles)

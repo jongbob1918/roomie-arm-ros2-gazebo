@@ -61,7 +61,7 @@ WORKSPACE_HEIGHT_MAX = 0.50  # 50cm
 
 # 자세 정의
 INITIAL_POSE = [0.0, 0.0, 0.0, 0.0]
-OBSERVATION_POSE = [0.00, 1.19, 1,29, -1.44]
+OBSERVATION_POSE = [0.00, 1.19, 1.29, -1.44]
 JOINT_NAMES = ['joint_1', 'joint_2', 'joint_3', 'joint_4']
 
 
@@ -357,10 +357,10 @@ class ButtonClickNode(Node):
                     self.get_logger().info(f"Trying approach {i+1}/{len(approach_candidates)}")
 
                     joints_approach = self.ik_solver.inverse_kinematics(
-                        approach_pos.tolist(), self.current_joint_states
+                        approach_pos.tolist(), self.current_joint_states, approach_dir.tolist()
                     )
                     joints_press = self.ik_solver.inverse_kinematics(
-                        press_pos.tolist(), self.current_joint_states
+                        press_pos.tolist(), self.current_joint_states, approach_dir.tolist()
                     )
                     joints_retract = joints_approach  # 후퇴 = 접근
 
