@@ -1,32 +1,35 @@
 #!/usr/bin/env python3
 """
 Roomie 4DOF Robot GUI Controller
-슬라이더를 통한 실시간 조인트 제어
+joint_trajectory_controller 사용
 """
 
 import rclpy
 from rclpy.node import Node
-from std_msgs.msg import Float64MultiArray
+from rclpy.action import ActionClient
+from control_msgs.action import FollowJointTrajectory
+from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint
+from builtin_interfaces.msg import Duration
 import tkinter as tk
 from tkinter import ttk
 import threading
-import time
 
 
 class RobotGUIController(Node):
     def __init__(self):
         super().__init__('robot_gui_controller')
         
-        # Publisher 생성
-        self.command_pub = self.create_publisher(
-            Float64MultiArray,
-            '/forward_position_controller/commands',
-            10
+        # Action Client 생성 (joint_trajectory_controller용)
+        self.trajectory_client = ActionClient(
+            self, 
+            FollowJointTrajectory, 
+            '/joint_trajectory_controller/follow_joint_trajectory'
         )
         
         # 현재 조인트 위치
         self.joint_positions = [0.0, 0.0, 0.0, 0.0]
-        self.joint_names = ['Joint 1 (Base)', 'Joint 2 (Shoulder)', 'Joint 3 (Elbow)', 'Joint 4 (Wrist)']
+        self.joint_names = ['joint_1', 'joint_2', 'joint_3', 'joint_4']
+        self.gui_joint_names = ['Joint 1 (Base)', 'Joint 2 (Shoulder)', 'Joint 3 (Elbow)', 'Joint 4 (Wrist)']
         
         # GUI 초기화
         self.init_gui()
@@ -53,7 +56,7 @@ class RobotGUIController(Node):
         self.sliders = []
         self.value_labels = []
         
-        for i, joint_name in enumerate(self.joint_names):
+        for i, joint_name in enumerate(self.gui_joint_names):
             # 조인트 이름 레이블
             name_label = ttk.Label(main_frame, text=joint_name, font=('Arial', 10, 'bold'))
             name_label.grid(row=i+1, column=0, sticky=tk.W, pady=5)
@@ -113,7 +116,7 @@ class RobotGUIController(Node):
             self.value_labels[joint_idx].config(text=f"{joint_value:.2f}")
             
             # 로봇에 명령 전송
-            self.send_command()
+            self.send_trajectory_command()
             
             # 상태 업데이트
             self.status_label.config(text=f"Moving Joint {joint_idx+1}", foreground='blue')
@@ -121,20 +124,39 @@ class RobotGUIController(Node):
         except Exception as e:
             self.get_logger().error(f"Slider error: {e}")
     
-    def send_command(self):
-        """조인트 명령 전송"""
+    def send_trajectory_command(self):
+        """joint_trajectory_controller로 궤적 명령 전송"""
         try:
-            msg = Float64MultiArray()
-            msg.data = self.joint_positions[:]
-            self.command_pub.publish(msg)
+            # Action 서버가 준비될 때까지 대기
+            if not self.trajectory_client.wait_for_server(timeout_sec=1.0):
+                self.get_logger().warn("Trajectory action server not available")
+                return
+            
+            # 궤적 메시지 생성
+            goal = FollowJointTrajectory.Goal()
+            trajectory = JointTrajectory()
+            
+            trajectory.joint_names = self.joint_names
+            
+            # 궤적 점 생성 (1초 동안 이동)
+            point = JointTrajectoryPoint()
+            point.positions = self.joint_positions[:]
+            point.velocities = [0.0] * 4
+            point.time_from_start = Duration(sec=1, nanosec=0)
+            
+            trajectory.points = [point]
+            goal.trajectory = trajectory
+            
+            # 비동기 명령 전송
+            future = self.trajectory_client.send_goal_async(goal)
             
             self.get_logger().debug(
-                f'Sent: [{self.joint_positions[0]:.2f}, {self.joint_positions[1]:.2f}, '
+                f'Sent trajectory: [{self.joint_positions[0]:.2f}, {self.joint_positions[1]:.2f}, '
                 f'{self.joint_positions[2]:.2f}, {self.joint_positions[3]:.2f}]'
             )
             
         except Exception as e:
-            self.get_logger().error(f"Command send error: {e}")
+            self.get_logger().error(f"Trajectory command error: {e}")
     
     def home_position(self):
         """홈 포지션으로 이동"""
@@ -142,7 +164,7 @@ class RobotGUIController(Node):
             slider.set(0.0)
         
         self.joint_positions = [0.0, 0.0, 0.0, 0.0]
-        self.send_command()
+        self.send_trajectory_command()
         
         # 값 레이블들 업데이트
         for label in self.value_labels:
@@ -152,7 +174,7 @@ class RobotGUIController(Node):
     
     def stop_robot(self):
         """현재 위치에서 정지"""
-        self.send_command()  # 현재 위치 재전송
+        self.send_trajectory_command()  # 현재 위치 재전송
         self.status_label.config(text="Stopped", foreground='red')
     
     def on_closing(self):

@@ -91,10 +91,10 @@ The camera feed appears automatically in RViz under "Camera Image" display.
 Send joint commands directly:
 ```bash
 # Move to specific joint positions [joint1, joint2, joint3, joint4]
-ros2 topic pub /forward_position_controller/commands std_msgs/msg/Float64MultiArray "data: [0.5, 0.3, -0.2, 0.1]"
+ros2 topic pub /joint_trajectory_controller/commands std_msgs/msg/Float64MultiArray "data: [0.5, 0.3, -0.2, 0.1]"
 
 # Return to home position
-ros2 topic pub /forward_position_controller/commands std_msgs/msg/Float64MultiArray "data: [0.0, 0.0, 0.0, 0.0]"
+ros2 topic pub /joint_trajectory_controller/commands std_msgs/msg/Float64MultiArray "data: [0.0, 0.0, 0.0, 0.0]"
 
 # Monitor joint states
 ros2 topic echo /joint_states

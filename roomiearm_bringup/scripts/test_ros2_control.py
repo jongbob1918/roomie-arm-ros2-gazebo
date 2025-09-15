@@ -18,7 +18,7 @@ class RoomieROS2ControlTest(Node):
         # ros2_control 명령 퍼블리셔
         self.position_command_pub = self.create_publisher(
             Float64MultiArray,
-            '/forward_position_controller/commands',
+            '/joint_trajectory_controller/commands',
             10
         )
         

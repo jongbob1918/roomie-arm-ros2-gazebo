@@ -1,0 +1,9 @@
+<library path="roomiearm_hardware_interface">
+  <class name="roomiearm_hardware/RoomieArmHardwareInterface"
+         type="roomiearm_hardware::RoomieArmHardwareInterface"
+         base_class_type="hardware_interface::SystemInterface">
+    <description>
+      ROS 2 control hardware interface for the RoomieArm.
+    </description>
+  </class>
+</library>

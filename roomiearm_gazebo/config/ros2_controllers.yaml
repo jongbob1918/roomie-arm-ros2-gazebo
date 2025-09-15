@@ -1,27 +1,27 @@
+# roomiearm_bringup/config/ros2_controllers.yaml
 controller_manager:
   ros__parameters:
-    use_sim_time: true
     update_rate: 100  # Hz
 
+    # 로봇의 현재 상태를 /joint_states 토픽으로 발행
     joint_state_broadcaster:
       type: joint_state_broadcaster/JointStateBroadcaster
 
-    forward_position_controller:
-      type: forward_command_controller/ForwardCommandController
+    # [수정] > joint_trajectory_controller
+    joint_trajectory_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
 
-joint_state_broadcaster:
+# joint_trajectory_controller의 상세 설정
+joint_trajectory_controller:
   ros__parameters:
-    joints:
+    joints: # URDF의 조인트 이름과 정확히 일치해야 합니다.
       - joint_1
       - joint_2
       - joint_3
       - joint_4
-
-forward_position_controller:
-  ros__parameters:
-    joints:
-      - joint_1
-      - joint_2
-      - joint_3
-      - joint_4
-    interface_name: position
+    command_interfaces:
+      - position
+      - velocity # 컨트롤러가 속도 명령을 받을 수 있도록 추가
+    state_interfaces:
+      - position
+      - velocity # 컨트롤러가 현재 속도 상태를 참고할 수 있도록 추가

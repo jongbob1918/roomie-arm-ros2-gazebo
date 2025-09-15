@@ -75,22 +75,22 @@
 
     <!-- ArUco Marker Panel 1 (ID: 101) - 카메라가 볼 수 있도록 세워서 배치 -->
     <include>
-      <uri>model://aruco_marker_101</uri>
-      <pose>0.23 0 0.30 0 -1.5708 0</pose>  <!-- 90도 회전(pitch)으로 세워서 배치 -->
+      <uri>model://marker_101</uri>
+      <pose>0.23 0 0.30 0 0 0</pose>  <!-- 90도 회전(pitch)으로 세워서 배치 -->
       <name>aruco_panel_101</name>
     </include>
 
     <!-- ArUco Marker Panel 2 (ID: 102) -->
     <include>
-      <uri>model://aruco_marker_102</uri>
-      <pose>0.23 0.0 0.25 0 -1.5708 0</pose>  <!-- 90도 회전으로 세워서 배치 -->
+      <uri>model://marker_102</uri>
+      <pose>0.23 0.0 0.25 0 0 0</pose>  <!-- 90도 회전으로 세워서 배치 -->
       <name>aruco_panel_102</name>
     </include>
 
     <!-- ArUco Marker Panel 3 (ID: 103) -->
     <include>
-      <uri>model://aruco_marker_103</uri>
-      <pose>0.23 0.0 0.20 0 -1.5708 0</pose>  <!-- 90도 회전으로 세워서 배치 -->
+      <uri>model://marker_103</uri>
+      <pose>0.23 0.0 0.20 0 0 0</pose>  <!-- 90도 회전으로 세워서 배치 -->
       <name>aruco_panel_103</name>
     </include>
 

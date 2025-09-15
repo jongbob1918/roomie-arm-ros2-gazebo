@@ -23,13 +23,19 @@ def generate_launch_description():
     pkg_arm_description = FindPackageShare('roomiearm_description')
     
     # Gazebo 모델 경로 설정 (ArUco 마커 모델 포함)
-    models_path = PathJoinSubstitution([pkg_arm_gazebo, 'models'])
-    current_gz_path = os.environ.get('GZ_SIM_RESOURCE_PATH', '/opt/ros/jazzy/share')
+    pkg_models_path = PathJoinSubstitution([pkg_arm_gazebo, 'models'])
+    home_models_path = os.path.join(os.path.expanduser('~'), '.gazebo', 'models')
+    current_gz_path = os.environ.get('GZ_SIM_RESOURCE_PATH', '')
+
+    # 새로운 GZ_SIM_RESOURCE_PATH 값 생성
+    new_gz_path = f'{pkg_models_path}:{home_models_path}'
+    if current_gz_path:
+        new_gz_path += f':{current_gz_path}'
     
     # 환경변수 설정
     set_model_path = SetEnvironmentVariable(
         name='GZ_SIM_RESOURCE_PATH',
-        value=[models_path, ':', current_gz_path]
+        value=new_gz_path
     )
     
     # Launch arguments
@@ -142,12 +148,12 @@ def generate_launch_description():
         output="screen",
         parameters=[{"use_sim_time": use_sim_time}],
     )
-    
-    # Forward Position Controller Spawner
-    forward_position_controller_spawner = Node(
+
+    # Joint Trajectory Controller Spawner
+    joint_trajectory_controller_spawner = Node(
         package="controller_manager",
         executable="spawner",
-        arguments=["forward_position_controller", "--param-file", robot_controllers],
+        arguments=["joint_trajectory_controller", "--param-file", robot_controllers],
         output="screen",
         parameters=[{"use_sim_time": use_sim_time}],
     )
@@ -160,7 +166,7 @@ def generate_launch_description():
         robot_state_publisher,
         robot_spawner,
         joint_state_broadcaster_spawner,
-        forward_position_controller_spawner,
+        joint_trajectory_controller_spawner,
     ]
     
     return LaunchDescription(declared_arguments + nodes)

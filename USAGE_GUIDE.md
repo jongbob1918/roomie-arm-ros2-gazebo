@@ -59,10 +59,10 @@ ros2 launch arm_bringup simulation_control.launch.py gui:=false
 
 ```bash
 # 개별 조인트 제어
-ros2 topic pub /forward_position_controller/commands std_msgs/msg/Float64MultiArray "data: [0.5, 0.3, -0.2, 0.1]"
+ros2 topic pub /joint_trajectory_controller/commands std_msgs/msg/Float64MultiArray "data: [0.5, 0.3, -0.2, 0.1]"
 
 # 홈 포지션
-ros2 topic pub /forward_position_controller/commands std_msgs/msg/Float64MultiArray "data: [0.0, 0.0, 0.0, 0.0]"
+ros2 topic pub /joint_trajectory_controller/commands std_msgs/msg/Float64MultiArray "data: [0.0, 0.0, 0.0, 0.0]"
 
 # 조인트 상태 확인
 ros2 topic echo /joint_states

@@ -17,6 +17,8 @@ find_package(rosidl_default_generators REQUIRED)
 rosidl_generate_interfaces(${PROJECT_NAME}
   "action/ClickButton.action"
   "action/SetPose.action"
+  "msg/Marker.msg"           
+  "msg/MarkerArray.msg"
   DEPENDENCIES 
     std_msgs 
     geometry_msgs
