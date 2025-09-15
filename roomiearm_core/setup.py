@@ -21,6 +21,7 @@ setup(
     entry_points={
         'console_scripts': [
             'vision_node = roomiearm_core.vision_node:main',
+            'button_click_node = roomiearm_core.button_click_node:main',
         ],
     },
 )

@@ -29,7 +29,7 @@ class URDFKinematicsParser:
             node = rclpy.create_node('temp_urdf_reader')
             client = node.create_client(GetParameters, '/robot_state_publisher/get_parameters')
 
-            if not client.wait_for_service(timeout_sec=2.0):
+            if not client.wait_for_service(timeout_sec=3.0):
                 raise Exception("robot_state_publisher service not available")
 
             request = GetParameters.Request()
@@ -102,7 +102,7 @@ class DirectTransformIK:
         self.joint_chain = self.urdf_parser.joint_chain
 
     def create_transform_matrix(self, xyz, rpy, axis, angle):
-        """�X �, �1"""
+        """Transformation matrix creation"""
         T = np.eye(4)
 
         # Translation
@@ -149,16 +149,16 @@ class DirectTransformIK:
             return self.numerical_ik(target_position, current_joints)
 
     def geometric_ik(self, target_position, current_joints):
-        """4-DOF 0XY IK"""
+        """Geometric IK"""
         x, y, z = target_position
 
-        # Joint 1: �t� �
+        # Joint 1: Base rotation
         theta1 = math.atan2(y, x)
 
-        # 2D 8\ ��
+        # 2D 평면에서의 거리
         r = math.sqrt(x**2 + y**2)
 
-        # �l 8t (URDF� ��)
+        # Link lengths from URDF
         base_height = self.joint_chain['joint_1']['xyz'][2]  # 0.0814
         L1 = self.joint_chain['joint_2']['xyz'][2]  # 0.015
         L2 = self.joint_chain['joint_3']['xyz'][2]  # 0.1035
@@ -173,8 +173,7 @@ class DirectTransformIK:
         if target_dist > max_reach:
             raise ValueError(f"Target unreachable: {target_dist:.3f}m > {max_reach:.3f}m")
 
-        # 0XY İ (T�x �Y)
-        # 3-�l �t ���t0\ �
+        # Law of cosines
         cos_theta3 = (target_dist**2 - L2**2 - (L3 + L4)**2) / (2 * L2 * (L3 + L4))
         cos_theta3 = np.clip(cos_theta3, -1.0, 1.0)
 
@@ -184,11 +183,11 @@ class DirectTransformIK:
         beta = math.acos((L2**2 + target_dist**2 - (L3 + L4)**2) / (2 * L2 * target_dist))
 
         theta2 = alpha - beta
-        theta4 = -(theta2 + theta3)  # End effector �  �
+        theta4 = -(theta2 + theta3)  # End effector rotation
 
         result = [theta1, theta2, theta3, theta4]
 
-        # px� \ ��
+        # Joint limit checking
         for i, angle in enumerate(result):
             if not (JOINT_LIMITS_MIN[i] <= angle <= JOINT_LIMITS_MAX[i]):
                 raise ValueError(f"Joint {i+1} limit exceeded: {angle:.3f}")
@@ -196,7 +195,7 @@ class DirectTransformIK:
         return result
 
     def numerical_ik(self, target_position, current_joints):
-        """X \T IK"""
+        """Numerical IK"""
         def objective(joint_angles):
             pos, _ = self.forward_kinematics(joint_angles)
             return np.linalg.norm(pos - np.array(target_position))
@@ -213,29 +212,9 @@ class DirectTransformIK:
             raise ValueError(f"Numerical IK failed: error={result.fun:.6f}m")
 
     def is_in_workspace(self, position):
-        """��� ��"""
+        """Workspace check"""
         x, y, z = position
         radius = math.sqrt(x**2 + y**2)
         return (WORKSPACE_RADIUS_MIN <= radius <= WORKSPACE_RADIUS_MAX and
                 WORKSPACE_HEIGHT_MIN <= z <= WORKSPACE_HEIGHT_MAX)
 
-
-class KinematicsSolver:
-    """0t 8X1D \ �| t��"""
-    def __init__(self):
-        self.ik_solver = DirectTransformIK()
-
-    def get_ik(self, target_position, current_joints=None):
-        """0t x0�t� 8X"""
-        if current_joints is None:
-            current_joints = [0.0, 0.0, 0.0, 0.0]
-        return self.ik_solver.inverse_kinematics(target_position, current_joints)
-
-    def get_fk(self, joint_angles):
-        """0lY 8X x0�t�"""
-        pos, rot = self.ik_solver.forward_kinematics(joint_angles)
-        return pos.tolist()
-
-    def is_in_workspace(self, position):
-        """��� ��"""
-        return self.ik_solver.is_in_workspace(position)

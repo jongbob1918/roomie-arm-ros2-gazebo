@@ -16,6 +16,7 @@ install(DIRECTORY launch/
 # Install scripts
 install(PROGRAMS
   scripts/robot_gui_controller.py
+  scripts/gui_test_client.py
   DESTINATION lib/${PROJECT_NAME}
 )
 

@@ -61,7 +61,7 @@ WORKSPACE_HEIGHT_MAX = 0.50  # 50cm
 
 # 자세 정의
 INITIAL_POSE = [0.0, 0.0, 0.0, 0.0]
-OBSERVATION_POSE = [0.0, -0.7, 1.0, 0.6]
+OBSERVATION_POSE = [0.00, 1.19, 1,29, -1.44]
 JOINT_NAMES = ['joint_1', 'joint_2', 'joint_3', 'joint_4']
 
 
