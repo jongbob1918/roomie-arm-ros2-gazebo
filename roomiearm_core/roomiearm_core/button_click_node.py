@@ -341,47 +341,43 @@ class ButtonClickNode(Node):
                 f"z={marker_pose_base.pose.position.z:.3f}"
             )
 
-            # 3. 원추형 접근 후보 생성 및 필터링
-            self.get_logger().info("Step 3: Generating approach candidates...")
-            approach_candidates = self.generate_and_filter_approaches(marker_pose_base)
+            # 3. 단순화된 직접 접근 - 마커 위치로 바로 이동
+            self.get_logger().info("Step 3: Direct approach to marker...")
 
-            if not approach_candidates:
-                raise Exception("No valid approach candidates found")
+            # 마커 위치에서 약간 앞으로 이동한 위치를 타겟으로 설정 (5cm 앞)
+            target_x = marker_pose_base.pose.position.x - 0.05  # 5cm 앞
+            target_y = marker_pose_base.pose.position.y
+            target_z = marker_pose_base.pose.position.z
 
-            self.get_logger().info(f"Found {len(approach_candidates)} valid approaches")
+            target_position = [target_x, target_y, target_z]
 
-            # 4. 배치 IK 계산 (current_joint_states 기준)
-            self.get_logger().info("Step 4: Solving IK for approach candidates...")
-            for i, (approach_dir, approach_pos, press_pos) in enumerate(approach_candidates):
-                try:
-                    self.get_logger().info(f"Trying approach {i+1}/{len(approach_candidates)}")
+            self.get_logger().info(f"Target position: x={target_x:.3f}, y={target_y:.3f}, z={target_z:.3f}")
 
-                    joints_approach = self.ik_solver.inverse_kinematics(
-                        approach_pos.tolist(), self.current_joint_states, approach_dir.tolist()
-                    )
-                    joints_press = self.ik_solver.inverse_kinematics(
-                        press_pos.tolist(), self.current_joint_states, approach_dir.tolist()
-                    )
-                    joints_retract = joints_approach  # 후퇴 = 접근
+            # 4. 단순 IK 계산 (접근 방향 없이)
+            self.get_logger().info("Step 4: Calculating IK for direct approach...")
+            try:
+                target_joints = self.ik_solver.inverse_kinematics(
+                    target_position, self.current_joint_states
+                )
 
-                    # 5. 순차 실행
-                    self.get_logger().info("Step 5: Executing button press sequence...")
-                    success = self.execute_sequence(joints_approach, joints_press, joints_retract)
+                # 5. 직접 이동
+                self.get_logger().info("Step 5: Moving directly to marker...")
+                if self.move_to_joint_angles(target_joints, 2.0):
+                    time.sleep(1.0)  # 잠시 대기 (버튼 누르기 시뮬레이션)
 
-                    if success:
-                        # 6. 초기 자세로 복귀
-                        self.get_logger().info("Step 6: Returning to initial pose...")
-                        if self.move_to_joint_angles(INITIAL_POSE, 3.0):
-                            self.get_logger().info(f"===== Button Click for ID {target_id} SUCCEEDED =====")
-                            goal_handle.succeed()
-                            return ClickButton.Result(success=True, message="Button click completed successfully")
+                    # 6. 초기 자세로 복귀
+                    self.get_logger().info("Step 6: Returning to initial pose...")
+                    if self.move_to_joint_angles(INITIAL_POSE, 3.0):
+                        self.get_logger().info(f"===== Button Click for ID {target_id} SUCCEEDED =====")
+                        goal_handle.succeed()
+                        return ClickButton.Result(success=True, message="Button click completed successfully")
+                    else:
+                        raise Exception("Failed to return to initial pose")
+                else:
+                    raise Exception("Failed to move to marker")
 
-                except Exception as e:
-                    self.get_logger().warn(f'Approach {i+1} failed: {e}')
-                    continue
-
-            # 모든 접근 실패
-            raise Exception("All approach attempts failed")
+            except Exception as e:
+                raise Exception(f"Direct approach failed: {e}")
 
         except Exception as e:
             error_msg = f"Button click failed: {e}"

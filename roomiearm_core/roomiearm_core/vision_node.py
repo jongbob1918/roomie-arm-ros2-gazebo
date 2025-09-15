@@ -13,6 +13,10 @@ from geometry_msgs.msg import Point
 class VisionNode(Node):
     def __init__(self):
         super().__init__('vision_node')
+
+        # 로그 빈도 제어를 위한 변수
+        self.last_log_time = 0
+        self.log_interval = 1.0  # 1초에 한 번만 로그
         
         # 이미지 토픽을 구독(subscribe)
         self.subscription = self.create_subscription(
@@ -34,11 +38,15 @@ class VisionNode(Node):
         self.get_logger().info('Vision node has been started.')
 
     def image_callback(self, msg):
+        # 로그 빈도 제어
+        current_time = self.get_clock().now().nanoseconds / 1e9
+        should_log = (current_time - self.last_log_time) >= self.log_interval
+
         try:
             cv_image = self.bridge.imgmsg_to_cv2(msg, "bgr8")
             h, w, _ = cv_image.shape
-            self.get_logger().info(f"Image received: {h}x{w}")
-            self.get_logger().info(f"Aruco Dict: {self.aruco_dict}, Aruco Params: {self.aruco_params}")
+            if should_log:
+                self.get_logger().info(f"Image received: {h}x{w}")
         except Exception as e:
             self.get_logger().error(f'Failed to convert image: {e}')
             return
@@ -49,12 +57,15 @@ class VisionNode(Node):
         # ArUco 마커 감지
         corners, ids, _ = aruco_detector.detectMarkers(cv_image)
 
-        if ids is not None:
-            self.get_logger().info(f"Detected {len(ids)} markers: {ids.flatten().tolist()}")
-            for i, marker_id in enumerate(ids):
-                self.get_logger().info(f"Marker ID: {marker_id[0]}, Corners: {corners[i][0]}")
-        else:
-            self.get_logger().info("No markers detected.")
+        if should_log:
+            if ids is not None:
+                self.get_logger().info(f"Detected {len(ids)} markers: {ids.flatten().tolist()}")
+                for i, marker_id in enumerate(ids):
+                    self.get_logger().info(f"Marker ID: {marker_id[0]}, Corners: {corners[i][0]}")
+            else:
+                self.get_logger().info("No markers detected.")
+
+            self.last_log_time = current_time
 
         # 발행할 MarkerArray 메시지 생성
         marker_array_msg = MarkerArray()
